@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 //what is this context? D
 const ctx = canvas.getContext("2d");
 
-const resolution = 5;
+const resolution = 10;
 canvas.width = 800;
 canvas.height = 800;
 
@@ -10,7 +10,7 @@ const cols = canvas.width / resolution;
 const rows = canvas.height / resolution;
 
 //framerate rules
-let fps = 20;
+let fps = 25;
 let interval = 1000 / fps;
 let lastTime = 0;
 
@@ -79,9 +79,7 @@ function nextGen(grid) {
             currentNeighbour = grid[xCell][yCell];
             //how does this check if it is 1?
             //ohh so numNeighbours is 0, if the current neighbouring cell selected is alive (1) then 1 is added to numNeighbours!!
-            if (currentNeighbour === 1) {
-                numNeighbours++;
-            }
+            numNeighbours += currentNeighbour;
           }
         }
       }
@@ -89,12 +87,12 @@ function nextGen(grid) {
       //rules
 
       //if cell is alive and has less than 2 neighbours it dies
-      if (cell >= 1 && numNeighbours < 2) {
+      if (cell === 1 && numNeighbours < 2) {
         //applying the change to the nextGen grid so we don't affect the grid we are looping through
         nextGen[col][row] = 0;
-      } else if (cell >= 1 && numNeighbours > 3) {
-        nextGen[col][row] = 2;
-      } else if ((cell === 0 || cell === 2) && numNeighbours === 3) {
+      } else if (cell === 1 && numNeighbours > 3) {
+        nextGen[col][row] = 0;
+      } else if (cell === 0 && numNeighbours === 3) {
         nextGen[col][row] = 1;
       }
     }
@@ -112,15 +110,7 @@ function render(grid) {
       ctx.beginPath();
       ctx.rect(col * resolution, row * resolution, resolution, resolution);
       //how is this ? checking if cell is alive (a 1)
-      //ctx.fillStyle = cell ? "pink" : "green";
-      if (cell === 0) {
-        ctx.fillStyle = "Beige";
-      } else if (cell === 1) {
-        ctx.fillStyle = "DeepPink"
-      } else {
-        ctx.fillStyle = "DarkMagenta"
-      }
-
+      ctx.fillStyle = cell ? "pink" : "green";
       ctx.fill();
     //   ctx.strokeStyle = "white"
     //   ctx.lineWidth = 0.3
