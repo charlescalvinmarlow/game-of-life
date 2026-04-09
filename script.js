@@ -141,3 +141,34 @@ document.addEventListener("mousemove", (event) => {
   grid[x + 1][y + 1] = 1;
   grid[x - 1][y - 1] = 1;
 });
+
+document.addEventListener("click", (event) =>  {
+  let mouseX = event.clientX; // X-coordinate relative to the viewport
+  //console.log(mouseX);
+  let mouseY = event.clientY; // X-coordinate relative to the viewport
+  //console.log(mouseY);
+  let x = Math.floor(mouseX / resolution);
+  let y = Math.floor(mouseY / resolution);
+
+  for (let i = 0; i < cols / 4; i++) {
+      grid[x + i][y + i] = 1;
+      grid[x + i][y - i] = 1;
+      grid[x - i][y + i] = 1;
+      grid[x - i][y - i] = 1;
+      grid[x - i][y] = 1;
+      grid[x + i][y] = 1;
+      grid[x][y + i] = 1;
+      grid[x][y - i] = 1;
+  }
+
+})
+
+// function expandCircle (currentTime) {
+//   const delta = currentTime - lastTime;
+
+//   if (delta >= interval) {
+//     lastTime = currentTime - (delta % interval); // Adjust for drift
+
+    
+//   }
+// }
